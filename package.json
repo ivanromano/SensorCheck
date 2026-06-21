@@ -3,9 +3,11 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "android:build": "node scripts/generate-android.mjs",
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "generate": "node scripts/generate-android.mjs",
+    "generate:web": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
