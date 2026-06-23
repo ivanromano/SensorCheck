@@ -1,7 +1,9 @@
 <template>
   <section class="hero">
     <div class="hero-visual">
-      <IonIcon :icon="phonePortraitOutline" class="hero-icon" />
+      <div class="phone-shape">
+        <div class="phone-notch"></div>
+      </div>
     </div>
 
     <div class="hero-copy">
@@ -12,22 +14,29 @@
       </p>
 
       <div class="hero-meta">
-        <IonChip :color="alertCount > 0 ? 'warning' : 'success'">
-          <IonLabel>{{ alertCount }} alertas activas</IonLabel>
-        </IonChip>
+        <span
+          class="chip"
+          :class="alertCount > 0 ? 'chip-warning' : 'chip-success'"
+          data-alert-chip
+        >
+          {{ alertCount }} alertas activas
+        </span>
+        <span class="chip chip-neutral" data-last-updated>
+          Hora {{ lastUpdatedAt || '--:--:--' }}
+        </span>
+      </div>
 
-        <!-- <IonChip color="warning">
-          <IonLabel>Actualizado {{ lastUpdatedAt }}</IonLabel>
-        </IonChip> -->
+      <div class="hero-actions">
+        <button type="button" class="vibration-button" data-vibration-button>
+          Probar vibracion
+        </button>
+        <span class="vibration-feedback" data-vibration-feedback>Lista para vibrar</span>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { IonChip, IonIcon, IonLabel } from '@ionic/vue'
-import { phonePortraitOutline } from 'ionicons/icons'
-
 defineProps<{
   alertCount: number
   lastUpdatedAt: string
@@ -57,8 +66,23 @@ defineProps<{
   backdrop-filter: blur(10px);
 }
 
-.hero-icon {
-  font-size: 60px;
+.phone-shape {
+  position: relative;
+  width: 50px;
+  height: 84px;
+  border: 3px solid #eff6ff;
+  border-radius: 14px;
+}
+
+.phone-notch {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  width: 20px;
+  height: 4px;
+  border-radius: 999px;
+  background: #eff6ff;
+  transform: translateX(-50%);
 }
 
 .eyebrow {
@@ -89,6 +113,57 @@ h1 {
   margin-top: 16px;
 }
 
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.vibration-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vibration-feedback {
+  font-size: 13px;
+  color: rgba(239, 246, 255, 0.82);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.chip-success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.chip-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.chip-neutral {
+  background: rgba(255, 255, 255, 0.16);
+  color: #eff6ff;
+}
+
 @media (max-width: 640px) {
   .hero {
     grid-template-columns: 1fr;
@@ -100,6 +175,10 @@ h1 {
   }
 
   .hero-meta {
+    justify-content: center;
+  }
+
+  .hero-actions {
     justify-content: center;
   }
 }

@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-sensorcheck-native",
+  "version": "1.0.0",
+  "description": "Native Android helpers for SensorCheck.",
+  "cordova": {
+    "id": "cordova-plugin-sensorcheck-native",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "sensorcheck",
+    "android"
+  ],
+  "license": "Apache-2.0"
+}

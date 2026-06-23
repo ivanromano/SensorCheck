@@ -1,8 +1,8 @@
 {
-  "name": "com.seocheck.app",
-  "displayName": "SeoCheck",
+  "name": "com.sensorcheck.app",
+  "displayName": "SensorCheck",
   "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "SensorCheck mobile application.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,14 +10,20 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Apache Cordova Team",
+  "author": "SensorCheck",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "cordova-android": "^15.0.0"
-  },
   "cordova": {
     "platforms": [
       "android"
-    ]
+    ],
+    "plugins": {
+      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-sensorcheck-native": {}
+    }
+  },
+  "devDependencies": {
+    "cordova-android": "^15.0.0",
+    "cordova-plugin-ionic-webview": "^5.0.1",
+    "cordova-plugin-sensorcheck-native": "file:../plugins/cordova-plugin-sensorcheck-native"
   }
 }

@@ -1,4 +1,4 @@
-import { cpSync, existsSync, mkdirSync, rmSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
@@ -50,10 +50,11 @@ function buildWindowsCommand(command, args) {
 }
 
 function resolveGeneratedDir() {
-  const candidates = [path.join(rootDir, 'dist'), path.join(rootDir, '.output', 'public')]
+  const candidates = [path.join(rootDir, '.output', 'public'), path.join(rootDir, 'dist')]
 
   for (const candidate of candidates) {
     if (existsSync(candidate)) {
+      console.log(`Usando salida generada: ${path.relative(rootDir, candidate)}`)
       return candidate
     }
   }
@@ -67,6 +68,29 @@ function syncGeneratedFiles() {
   rmSync(mobileWwwDir, { recursive: true, force: true })
   mkdirSync(mobileWwwDir, { recursive: true })
   cpSync(generatedDir, mobileWwwDir, { recursive: true, force: true })
+  patchCordovaHtmlFiles()
+}
+
+function patchCordovaHtmlFiles() {
+  const htmlFiles = ['index.html', '200.html', '404.html']
+  const cordovaScriptTag = '<script src="./cordova.js"></script>'
+  const runtimeScriptTag = '<script defer src="./sensorcheck-runtime.js"></script>'
+
+  for (const fileName of htmlFiles) {
+    const filePath = path.join(mobileWwwDir, fileName)
+
+    if (!existsSync(filePath)) {
+      continue
+    }
+
+    const content = readFileSync(filePath, 'utf8')
+    const relativePatched = content.replace(/\b(href|src|data-src)="\/(?!\/)/gu, '$1="./')
+    const patched = relativePatched.includes(cordovaScriptTag)
+      ? relativePatched
+      : relativePatched.replace(runtimeScriptTag, `${cordovaScriptTag}${runtimeScriptTag}`)
+
+    writeFileSync(filePath, patched)
+  }
 }
 
 function resolveCordovaCommand() {

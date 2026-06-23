@@ -1,9 +1,5 @@
 <template>
-  <IonApp>
+  <NuxtLayout>
     <NuxtPage />
-  </IonApp>
+  </NuxtLayout>
 </template>
-
-<script setup lang="ts">
-import { IonApp } from '@ionic/vue'
-</script>
