@@ -14,4 +14,11 @@
     <allow-intent href="https://*/*" />
     <allow-navigation href="http://localhost/*" />
     <allow-navigation href="https://localhost/*" />
+    
+    <!-- Plugins -->
+    <plugin name="cordova-plugin-sensorcheck-native" spec="file:./plugins/cordova-plugin-sensorcheck-native" />
+    
+    <!-- Permissions for SensorCheckNative plugin -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 </widget>
